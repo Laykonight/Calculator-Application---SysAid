@@ -1,0 +1,13 @@
+#Ignore_everything
+*
+
+#exception_rule
+!*.jsx
+!*.js
+!.gitignore
+!*.html
+!*.md
+!*.json
+!*/
+
+/node_modules
