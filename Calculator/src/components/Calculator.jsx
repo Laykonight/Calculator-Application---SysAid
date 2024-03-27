@@ -1,15 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 export const Calculator = () => {
     const dispatch = useDispatch();
-    const Display = useSelector((state) => state.display); // string
-    const history = useSelector((state) => state.history); // Array
+    const Display = useSelector((state) => state.display);
+    const history = useSelector((state) => state.history);
     const [displayExpression, setDisplayExpression] = useState('');
+    const historyLimit = 20;
 
     const addHistory = (element) => {
         let newHistory = [...history];
-        if (newHistory.length === 20) {
+        if (newHistory.length === historyLimit) {
             newHistory.shift();
         }
         newHistory.push(element);
@@ -17,70 +18,118 @@ export const Calculator = () => {
     }
 
     const handleElementClick = (element) => {
-        setDisplayExpression(displayExpression + element); // Update setDisplayExpression with number
+        if (element === '=') {
+            handleEquals();
+            return;
+        }
+        setDisplayExpression(displayExpression + element);
         addHistory(element);
         dispatch({type: 'DISPLAY', payload: "" + Display + element});
     };
 
     const handleClear = () => {
-        setDisplayExpression(''); // Reset expression
+        setDisplayExpression('');
         addHistory('clear');
-        dispatch({type: 'DISPLAY', payload: ""}); // Clear display
+        dispatch({type: 'DISPLAY', payload: ""});
     };
 
     const handleEquals = () => {
         let result;
-        if (displayExpression === ''){
+        if (displayExpression === '') {
             result = 0;
         }
         try {
-            result = eval(displayExpression); // Evaluate expression using eval (be cautious)
-            if (result === 'Infinity'){
+            result = eval(displayExpression);
+            if (result === 'Infinity') {
                 throw new Error('Invalid expression');
             }
-            setDisplayExpression(result.toString()); // Update expression with result
-            dispatch({type: 'DISPLAY', payload: result}); // Update display with result
-            addHistory('='); // Update history
+            setDisplayExpression(result.toString());
+            dispatch({type: 'DISPLAY', payload: result});
+            addHistory('=');
         } catch (error) {
-            dispatch({type: 'DISPLAY', payload: 'Invalid expression'}); // Update display with error message
+            dispatch({type: 'DISPLAY', payload: 'Invalid expression'});
         }
     };
 
-    // useEffect(() => {
-    //     // This effect runs whenever the history state changes
-    //     console.log("History updated:", history); // Optional for debugging
-    // }, [history]); // Dependency array: re-run on history changes
+    const buttonRows = [
+        ['7', '8', '9', '*'],
+        ['4', '5', '6', '/'],
+        ['1', '2', '3', '+'],
+        ['0', '.', '=', '-']
+    ]
 
     return (
 
-        <div className="calculator">
-            <div>Calculator</div>
-            <div className="display" style={{
-                border: "2px solid red",
-                minHeight: "30px",
-            }}>{Display}</div>
+        <div className="
+            calculator
+            container
+            text-center
+            mt-5 w-25
+            border border-black rounded"
+             style={{
+                 minWidth: '170px',
+                 maxWidth: '200px',
+             }}>
+            <div className="
+                display
+                row
+                align-items-center
+                mx-1 mb-3"
+                 style={{
+                     borderBottom: "2px solid #000000",
+                     minHeight: "30px",
+                 }}>
+                {Display}
+            </div>
             <div className="buttons">
-                <button onClick={() => handleElementClick('7')}>7</button>
-                <button onClick={() => handleElementClick('8')}>8</button>
-                <button onClick={() => handleElementClick('9')}>9</button>
-                <button onClick={() => handleElementClick('/')}>/</button>
-                <br/>
-                <button onClick={() => handleElementClick('4')}>4</button>
-                <button onClick={() => handleElementClick('5')}>5</button>
-                <button onClick={() => handleElementClick('6')}>6</button>
-                <button onClick={() => handleElementClick('*')}>*</button>
-                <br/>
-                <button onClick={() => handleElementClick('1')}>1</button>
-                <button onClick={() => handleElementClick('2')}>2</button>
-                <button onClick={() => handleElementClick('3')}>3</button>
-                <button onClick={() => handleElementClick('-')}>-</button>
-                <br/>
-                <button onClick={() => handleEquals()}>=</button>
-                <button onClick={() => handleElementClick('.')}>.</button>
-                <button onClick={() => handleElementClick('0')}>0</button>
-                <button onClick={() => handleElementClick('+')}>+</button>
-                <br/>
-                <button onClick={() => handleClear()}>C</button>
+                {buttonRows.slice(0, 4).map((row, rowIndex) => (
+                    <div
+                        key={rowIndex}
+                        className="
+                        button-row
+                        row
+                        align-items-center
+                        justify-content-evenly
+                        flex-nowrap"
+                    >
+                        {row.map((element, elementIndex) => (
+                            <button
+                                className="
+                                col-4
+                                btn btn-light
+                                border-black
+                                m-1 mb-2 p-0
+                                justify-content-center"
+                                style={{
+                                    height: '30px',
+                                    width: '30px',
+                                }}
+                                type="button"
+                                key={elementIndex}
+                                onClick={() => handleElementClick(element)}
+                            >
+                                {element}
+                            </button>
+                        ))}
+                    </div>
+                ))}
+                <div className="
+                row
+                align-items-center
+                justify-content-end">
+                    <button
+                        className="
+                        col-4
+                        btn btn-danger
+                        border-black
+                        text-black
+                        m-1 mb-2 p-0
+                        justify-content-center"
+                        onClick={() => handleClear()}
+                    >
+                        C
+                    </button>
+                </div>
             </div>
         </div>
     )

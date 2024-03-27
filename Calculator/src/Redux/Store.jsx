@@ -4,7 +4,6 @@ const initialState = {
     user: '', // Store user info
     history: [], // Store calculator button history
     display: '', // Store current calculator display
-    result: '', // Store calculation result
 };
 
 const reducer = (state = initialState, action) => {

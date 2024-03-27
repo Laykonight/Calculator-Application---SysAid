@@ -7,7 +7,6 @@ export const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    console.log(username)
     const handleTabClick = (path) => {
       if (path === window.location.pathname){
           return;
@@ -17,22 +16,30 @@ export const Header = () => {
     };
 
     const handleLogout = () => {
-
       dispatch({type: "HISTORY", payload: [] });
-      dispatch({type: "SET_USER", payload: username});
+      dispatch({type: "SET_USER", payload: ""});
+      dispatch({type: "DISPLAY", payload: ""});
       navigate('/login');
     };
 
     return (
-        <header className="header">
-            <div>Header</div>
-            <div className="tabs">
+        <header className="
+        container
+        text-center
+        min-vw-100
+        border border-primary">
+            {/*<div>Header</div>*/}
+            <div className="tabs
+            row
+            align-items-center
+            justify-content-lg-start">
                 <button
-                    className={`tab ${window.location.pathname === '/' ? 'active' : ''}`}
+                    className={`col-2 btn btn btn-${window.location.pathname === '/' ? 'info' : 'light'} border-black tab `}
                     onClick={() => handleTabClick('/')}
                 >
                     Calculator
                 </button>
+
                 <button
                     className={`tab ${window.location.pathname === '/history' ? 'active' : ''}`}
                     onClick={() => handleTabClick('/history')}

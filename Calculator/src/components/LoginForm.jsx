@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {ThemeContext} from "../Context/ThemeContext.jsx";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const LoginForm = () => {
@@ -9,6 +10,8 @@ export const LoginForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const { mode }  = useContext(ThemeContext);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -16,27 +19,26 @@ export const LoginForm = () => {
 
         if (isValid) {
             dispatch({ type: "SET_USER", payload: username });
-            console.log("username", username);
             navigate('/');
         }
     };
 
     const validateForm = () => {
-        let isValid = true;
-
         if (username.trim() === '') {
             alert('Please enter a username.');
-            isValid = false;
-        } else if (!emailRegex.test(email.trim())) {
-            alert('Please enter a valid email address.');
-            isValid = false;
+            return false;
         }
 
-        return isValid;
+        if (!emailRegex.test(email.trim())) {
+            alert('Please enter a valid email address.');
+            return false;
+        }
+
+        return true;
     };
 
     return (
-        <div>
+        <div className={`login-form ${mode}`}>
             <form onSubmit={handleSubmit}>
                 <h2>Login</h2>
                 <div>
