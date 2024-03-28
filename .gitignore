@@ -8,6 +8,7 @@
 !*.html
 !*.md
 !*.json
+!*.css
 !*/
 
 /node_modules

@@ -17,9 +17,10 @@ export const Header = () => {
     };
 
     const handleLogout = () => {
-      dispatch({type: "HISTORY", payload: [] });
-      dispatch({type: "SET_USER", payload: ""});
-      dispatch({type: "DISPLAY", payload: ""});
+      dispatch({type: "LOGOUT" });
+      // dispatch({type: "HISTORY", payload: [] });
+      // dispatch({type: "SET_USER", payload: ""});
+      // dispatch({type: "DISPLAY", payload: ""});
       navigate('/login');
     };
 

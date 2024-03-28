@@ -14,6 +14,8 @@ const reducer = (state = initialState, action) => {
             return { ...state, history: action.payload };
         case 'DISPLAY':
             return { ...state, display: action.payload };
+        case 'LOGOUT':
+            return { ...state, display: "", history: [], user: ""};
         default:
             return state;
     }

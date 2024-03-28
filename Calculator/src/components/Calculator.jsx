@@ -6,7 +6,7 @@ export const Calculator = () => {
     const dispatch = useDispatch();
     const Display = useSelector((state) => state.display);
     const history = useSelector((state) => state.history);
-    const [displayExpression, setDisplayExpression] = useState('');
+    const [displayExpression, setDisplayExpression] = useState(Display);
     const historyLimit = 20;
 
     const addHistory = (element) => {
@@ -23,6 +23,9 @@ export const Calculator = () => {
             handleEquals();
             return;
         }
+        if (displayExpression === 'Invalid expression'){
+            return;
+        }
         setDisplayExpression(displayExpression + element);
         addHistory(element);
         dispatch({type: 'DISPLAY', payload: "" + Display + element});
@@ -36,12 +39,14 @@ export const Calculator = () => {
 
     const handleEquals = () => {
         let result;
+        console.log("displayExpression = ", displayExpression);
         if (displayExpression === '') {
             result = 0;
         }
         try {
             result = eval(displayExpression)
             if (result === Infinity) {
+
                 dispatch({type: 'DISPLAY', payload: 'Invalid expression'});
                 return;
             }
@@ -49,6 +54,7 @@ export const Calculator = () => {
             dispatch({type: 'DISPLAY', payload: result});
             addHistory('=');
         } catch (error) {
+            console.log("here");
             dispatch({type: 'DISPLAY', payload: 'Invalid expression'});
         }
     };
