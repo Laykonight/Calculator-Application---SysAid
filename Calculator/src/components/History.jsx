@@ -1,12 +1,13 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {StyledButton} from "./StyledButton.jsx";
 
 export const History = () => {
     const history = useSelector((state) => state.history);
+    const dispatch = useDispatch();
 
     return (
-    <div className="history">
-        <h2>History</h2>
+    <div className="history m-2">
         <ol>
             {history.length > 0 ? (
                 history.map((item, index) => (
@@ -18,6 +19,14 @@ export const History = () => {
                 <li>No history yet.</li>
             )}
         </ol>
+        <StyledButton
+            className="btn-sm text-black"
+            bsColor="danger"
+            bsBorder="black"
+            type="button"
+            onClick={() => {dispatch({type: "HISTORY", payload: [] })}}
+            text="Clear Hisroty"
+        />
     </div>
     )
 }

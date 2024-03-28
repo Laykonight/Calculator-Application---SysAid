@@ -11,18 +11,18 @@ export const AppRoutes = () => {
 
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/" element={ username === '' ?
-                    (
-                        <LoginPage />
-                    ) : (
-                        <MainPage />
-                    )} >
-                    <Route path="/" element={<CalcPage/>}/>
-                    <Route path="/history" element={<HistoryPage/>}/>
-                </Route>
-            </Routes>
+                <Routes>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/" element={ username === '' ?
+                        (
+                            <LoginPage />
+                        ) : (
+                            <MainPage />
+                        )} >
+                        <Route path="/" element={<CalcPage/>}/>
+                        <Route path="/history" element={<HistoryPage/>}/>
+                    </Route>
+                </Routes>
         </BrowserRouter>
     )
 }

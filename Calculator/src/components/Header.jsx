@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import {StyledButton} from "./StyledButton.jsx";
 
 export const Header = () => {
     const username = useSelector((state) => state.user);
@@ -24,33 +25,43 @@ export const Header = () => {
 
     return (
         <header className="
-        container
+
         text-center
-        min-vw-100
-        border border-primary">
+        min-vw-100">
             {/*<div>Header</div>*/}
-            <div className="tabs
-            row
-            align-items-center
-            justify-content-lg-start">
-                <button
-                    className={`col-2 btn btn btn-${window.location.pathname === '/' ? 'info' : 'light'} border-black tab `}
-                    onClick={() => handleTabClick('/')}
-                >
-                    Calculator
-                </button>
+            <div className="d-flex py-3 bg-dark-subtle">
+                <div
+                    className="me-auto">
+                    <StyledButton
+                        className="btn-sm rounded-0 ms-3"
+                        bsColor={`${window.location.pathname === '/' ? 'info' : 'light'}`}
+                        bsBorder="black"
+                        type="button"
+                        onClick={() => handleTabClick('/')}
+                        text="Calculator"
+                    />
+                    <StyledButton
+                        className="btn-sm rounded-0"
+                        bsColor={`${window.location.pathname === '/history' ? 'info' : 'light'}`}
+                        bsBorder="black"
+                        type="button"
+                        onClick={() => handleTabClick('/history')}
+                        text="History"
+                    />
+                </div>
+                <div>
+                    <StyledButton
+                        className="btn-sm"
+                        bsColor="outline-danger"
+                        bsBorder="danger"
+                        type="button"
+                        onClick={handleLogout}
+                        text="Logout"
+                    />
+                </div>
 
-                <button
-                    className={`tab ${window.location.pathname === '/history' ? 'active' : ''}`}
-                    onClick={() => handleTabClick('/history')}
-                >
-                    History
-                </button>
-            </div>
-            <div className="user-info">
-                <span>Welcome, {username}</span>
 
-                <button onClick={handleLogout}>Logout</button>
+                <span className="mx-3">Welcome, {username}</span>
             </div>
         </header>
     )

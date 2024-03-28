@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {StyledButton} from "./StyledButton.jsx";
 
 export const Calculator = () => {
     const dispatch = useDispatch();
@@ -39,9 +40,10 @@ export const Calculator = () => {
             result = 0;
         }
         try {
-            result = eval(displayExpression);
-            if (result === 'Infinity') {
-                throw new Error('Invalid expression');
+            result = eval(displayExpression)
+            if (result === Infinity) {
+                dispatch({type: 'DISPLAY', payload: 'Invalid expression'});
+                return;
             }
             setDisplayExpression(result.toString());
             dispatch({type: 'DISPLAY', payload: result});
@@ -67,9 +69,10 @@ export const Calculator = () => {
             mt-5 w-25
             border border-black rounded"
              style={{
-                 minWidth: '170px',
-                 maxWidth: '200px',
-             }}>
+                 minWidth: '200px',
+                 maxWidth: '250px',
+             }}
+        >
             <div className="
                 display
                 row
@@ -77,7 +80,7 @@ export const Calculator = () => {
                 mx-1 mb-3"
                  style={{
                      borderBottom: "2px solid #000000",
-                     minHeight: "30px",
+                     minHeight: "40px",
                  }}>
                 {Display}
             </div>
@@ -85,31 +88,20 @@ export const Calculator = () => {
                 {buttonRows.slice(0, 4).map((row, rowIndex) => (
                     <div
                         key={rowIndex}
-                        className="
-                        button-row
-                        row
-                        align-items-center
-                        justify-content-evenly
-                        flex-nowrap"
+                        className="d-flex"
                     >
                         {row.map((element, elementIndex) => (
-                            <button
-                                className="
-                                col-4
-                                btn btn-light
-                                border-black
-                                m-1 mb-2 p-0
-                                justify-content-center"
-                                style={{
-                                    height: '30px',
-                                    width: '30px',
-                                }}
-                                type="button"
-                                key={elementIndex}
-                                onClick={() => handleElementClick(element)}
-                            >
-                                {element}
-                            </button>
+                            <div className="flex-fill" key={elementIndex}>
+                                <StyledButton
+                                    className="m-1"
+                                    bsColor="light"
+                                    bsBorder="black"
+                                    type="button"
+                                    onClick={() => handleElementClick(element)}
+                                    text={element}
+                                />
+                            </div>
+
                         ))}
                     </div>
                 ))}
@@ -117,18 +109,14 @@ export const Calculator = () => {
                 row
                 align-items-center
                 justify-content-end">
-                    <button
-                        className="
-                        col-4
-                        btn btn-danger
-                        border-black
-                        text-black
-                        m-1 mb-2 p-0
-                        justify-content-center"
+                    <StyledButton
+                        className="col-4 text-black m-1 mb-2 p-0"
+                        bsColor="danger"
+                        bsBorder="black"
+                        type="button"
                         onClick={() => handleClear()}
-                    >
-                        C
-                    </button>
+                        text="C"
+                    />
                 </div>
             </div>
         </div>
