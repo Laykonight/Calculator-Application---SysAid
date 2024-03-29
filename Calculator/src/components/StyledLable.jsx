@@ -4,8 +4,9 @@ export const StyledLable = ({ className, htmlFor, text }) => {
     return (
         <label
             className={`form-label w-25 me-auto ${className}`}
+            htmlFor={`${htmlFor}`}
         >
-
+            {text}
         </label>
     )
 }

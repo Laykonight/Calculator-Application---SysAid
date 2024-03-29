@@ -7,9 +7,20 @@ export const History = () => {
     const dispatch = useDispatch();
 
     return (
-    <div className="history m-2">
-        <div className="d-flex flex-column">
-            <div className="flex-grow-1 overflow-y-auto p-2">
+    <div className="history m-2 h-100">
+        <div className="
+        d-flex
+        flex-column
+        align-items-start
+        h-100">
+            <div
+                className="
+                flex-grow-1
+                overflow-y-auto
+                p-2 w-100 "
+                style={{
+                }}
+            >
                 <ol>
                     {history.length > 0 ? (
                         history.map((item, index) => (
@@ -22,19 +33,19 @@ export const History = () => {
                     )}
                 </ol>
             </div>
-
+            <div className="mt-auto align-self-center">
+                <StyledButton
+                    className="btn-sm text-black"
+                    bsColor="danger"
+                    bsBorder="black"
+                    type="button"
+                    onClick={() => {
+                        dispatch({type: "HISTORY", payload: []})
+                    }}
+                    text="Clear Hisroty"
+                />
+            </div>
         </div>
-
-        <StyledButton
-            className="btn-sm text-black"
-            bsColor="danger"
-            bsBorder="black"
-            type="button"
-            onClick={() => {
-                dispatch({type: "HISTORY", payload: []})
-            }}
-            text="Clear Hisroty"
-        />
     </div>
     )
 }

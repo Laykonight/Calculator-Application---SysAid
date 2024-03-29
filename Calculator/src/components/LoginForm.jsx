@@ -1,73 +1,90 @@
-import React, {useContext, useState} from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {ThemeContext} from "../Context/ThemeContext.jsx";
-import {StyledButton} from "./StyledButton.jsx";
+import { StyledButton } from "./StyledButton.jsx";
+import { StyledLable } from "./StyledLable.jsx";
+import { StyledInput } from "./StyledInput.jsx";
+import {FormRow} from "./FormRow.jsx";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
+    const [usernameError, setUsernameError] = useState('');
+    const [emailError, setEmailError] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    // const { mode }  = useContext(ThemeContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const isValid = validateForm();
+        const isValid = isFormValid();
 
         if (isValid) {
-            dispatch({ type: "SET_USER", payload: username });
+            dispatch({type: "SET_USER", payload: username});
             navigate('/');
         }
     };
 
-    const validateForm = () => {
+    const isFormValid = () => {
+        setUsernameError('');
+        setEmailError('');
+        let isValid = true;
+
         if (username.trim() === '') {
-            alert('Please enter a username.');
-            return false;
+            setUsernameError('Please enter a username.');
+            isValid = false;
         }
 
         if (!emailRegex.test(email.trim())) {
-            alert('Please enter a valid email address.');
-            return false;
+            setEmailError('Please enter a valid email address.');
+            isValid = false;
         }
 
-        return true;
+        return isValid;
     };
 
     return (
-        <div className={`login-form `}>
-            <div className="container w-75 text-start border border-black mt-5 pb-5 px-3"
+        <div className={`login-form page`}>
+            <div className="
+                container
+                text-start
+                border border-black
+                w-75 mt-5 pb-4 px-3"
                  style={{
                      maxWidth: "700px",
                      minWidth: "350px",
                  }}>
                 <header className="fs-5 mb-3">Login</header>
                 <form onSubmit={handleSubmit}>
-
-                    <div className="d-flex justify-content-start align-items-center mb-3">
-                        <label className="form-label w-25 me-auto" htmlFor="username">Username:</label>
-                        <input
-                            className="form-control ms-4"
+                    <FormRow>
+                        <StyledLable
+                            htmlFor="username"
+                            text="Username"
+                        />
+                        <StyledInput
+                            className={`${usernameError ? 'is-invalid' : ''}`}
                             type="text"
                             id="username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
+                            placeholder={usernameError}
                         />
-                    </div>
-                    <div className="d-flex justify-content-start align-items-center mb-3">
-                        <label className="form-label w-25 me-auto" htmlFor="email">Email:</label>
-                        <input
-                            className="form-control ms-4"
+                    </FormRow>
+                    <FormRow>
+                        <StyledLable
+                            htmlFor="email"
+                            text="Email"
+                        />
+                        <StyledInput
+                            className={`${emailError ? 'is-invalid' : ''}`}
                             type="email"
                             id="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            placeholder={emailError}
                         />
-                    </div>
+                    </FormRow>
                     <div className="row justify-content-end">
                         <StyledButton
                             className="col-3 text-black me-3 p-0"

@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 const initialState = {
-    user: '', // Store user info
-    history: [], // Store calculator button history
-    display: '', // Store current calculator display
+    user: '',
+    history: [],
+    display: '',
 };
 
 const reducer = (state = initialState, action) => {

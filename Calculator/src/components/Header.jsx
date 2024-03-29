@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {StyledButton} from "./StyledButton.jsx";
@@ -18,18 +18,11 @@ export const Header = () => {
 
     const handleLogout = () => {
       dispatch({type: "LOGOUT" });
-      // dispatch({type: "HISTORY", payload: [] });
-      // dispatch({type: "SET_USER", payload: ""});
-      // dispatch({type: "DISPLAY", payload: ""});
       navigate('/login');
     };
 
     return (
-        <header className="
-
-        text-center
-        min-vw-100">
-            {/*<div>Header</div>*/}
+        <header className="text-center min-vw-100">
             <div className="d-flex py-3 bg-dark-subtle">
                 <div
                     className="me-auto">
@@ -60,9 +53,9 @@ export const Header = () => {
                         text="Logout"
                     />
                 </div>
-
-
-                <span className="mx-3">Welcome, {username}</span>
+                <span className="mx-3">
+                    Welcome, {username}
+                </span>
             </div>
         </header>
     )

@@ -3,7 +3,7 @@ import {History} from "../components/History.jsx";
 
 export const HistoryPage = () => {
     return (
-        <div>
+        <div className="h-75">
             <History />
         </div>
     )

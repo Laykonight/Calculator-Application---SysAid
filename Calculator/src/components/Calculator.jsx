@@ -39,7 +39,6 @@ export const Calculator = () => {
 
     const handleEquals = () => {
         let result;
-        console.log("displayExpression = ", displayExpression);
         if (displayExpression === '') {
             result = 0;
         }
@@ -54,7 +53,6 @@ export const Calculator = () => {
             dispatch({type: 'DISPLAY', payload: result});
             addHistory('=');
         } catch (error) {
-            console.log("here");
             dispatch({type: 'DISPLAY', payload: 'Invalid expression'});
         }
     };
@@ -67,7 +65,6 @@ export const Calculator = () => {
     ]
 
     return (
-
         <div className="
             calculator
             container
@@ -83,11 +80,9 @@ export const Calculator = () => {
                 display
                 row
                 align-items-center
-                mx-1 mb-3"
-                 style={{
-                     borderBottom: "2px solid #000000",
-                     minHeight: "40px",
-                 }}>
+                mx-1 mb-3
+                border-bottom border-black border-2"
+                 style={{ minHeight: "40px" }}>
                 {Display}
             </div>
             <div className="buttons">
@@ -107,14 +102,13 @@ export const Calculator = () => {
                                     text={element}
                                 />
                             </div>
-
                         ))}
                     </div>
                 ))}
                 <div className="
-                row
-                align-items-center
-                justify-content-end">
+                    row
+                    align-items-center
+                    justify-content-end">
                     <StyledButton
                         className="col-4 text-black m-1 mb-2 p-0"
                         bsColor="danger"

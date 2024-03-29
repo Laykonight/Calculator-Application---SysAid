@@ -1,6 +1,13 @@
 import React from 'react'
 
-export const StyledButton = ({ className, bsColor, bsBorder, type, onClick, text }) => {
+export const StyledButton = ({
+    className,
+    bsColor,
+    bsBorder,
+    type,
+    onClick,
+    text
+    }) => {
     return (
         <button
             className={`btn btn-${bsColor} border-${bsBorder} ${className}`}
