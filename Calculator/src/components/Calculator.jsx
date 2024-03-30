@@ -1,22 +1,12 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {StyledButton} from "./StyledButton.jsx";
+import { addHistory, setDisplay } from '../Redux/Store.jsx';
+import { StyledButton } from "./StyledButton.jsx";
 
 export const Calculator = () => {
     const dispatch = useDispatch();
-    const Display = useSelector((state) => state.display);
-    const history = useSelector((state) => state.history);
-    const [displayExpression, setDisplayExpression] = useState(Display);
+    const [displayExpression, setDisplayExpression] = useState(useSelector((state) => state.display));
     const historyLimit = 20;
-
-    const addHistory = (element) => {
-        let newHistory = [...history];
-        if (newHistory.length === historyLimit) {
-            newHistory.shift();
-        }
-        newHistory.push(element);
-        dispatch({type: 'HISTORY', payload: newHistory});
-    }
 
     const handleElementClick = (element) => {
         if (element === '=') {
@@ -27,14 +17,14 @@ export const Calculator = () => {
             return;
         }
         setDisplayExpression(displayExpression + element);
-        addHistory(element);
-        dispatch({type: 'DISPLAY', payload: "" + Display + element});
+        dispatch(addHistory(element));
+        dispatch(setDisplay(`${displayExpression}${element}`));
     };
 
     const handleClear = () => {
         setDisplayExpression('');
-        addHistory('clear');
-        dispatch({type: 'DISPLAY', payload: ""});
+        dispatch(addHistory('clear'));
+        dispatch(setDisplay(''));
     };
 
     const handleEquals = () => {
@@ -43,17 +33,16 @@ export const Calculator = () => {
             result = 0;
         }
         try {
-            result = eval(displayExpression)
+            result = eval(displayExpression);
             if (result === Infinity) {
-
-                dispatch({type: 'DISPLAY', payload: 'Invalid expression'});
+                dispatch(setDisplay('Invalid expression'));
                 return;
             }
             setDisplayExpression(result.toString());
-            dispatch({type: 'DISPLAY', payload: result});
-            addHistory('=');
+            dispatch(setDisplay(result));
+            dispatch(addHistory('='));
         } catch (error) {
-            dispatch({type: 'DISPLAY', payload: 'Invalid expression'});
+            dispatch(setDisplay('Invalid expression'));
         }
     };
 
@@ -62,7 +51,7 @@ export const Calculator = () => {
         ['4', '5', '6', '/'],
         ['1', '2', '3', '+'],
         ['0', '.', '=', '-']
-    ]
+    ];
 
     return (
         <div className="
@@ -83,7 +72,7 @@ export const Calculator = () => {
                 mx-1 mb-3
                 border-bottom border-black border-2"
                  style={{ minHeight: "40px" }}>
-                {Display}
+                {displayExpression}
             </div>
             <div className="buttons">
                 {buttonRows.slice(0, 4).map((row, rowIndex) => (

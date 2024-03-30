@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     user: '',
@@ -6,21 +7,34 @@ const initialState = {
     display: '',
 };
 
-const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case 'SET_USER':
-            return { ...state, user: action.payload };
-        case 'HISTORY':
-            return { ...state, history: action.payload };
-        case 'DISPLAY':
-            return { ...state, display: action.payload };
-        case 'LOGOUT':
-            return { ...state, display: "", history: [], user: ""};
-        default:
-            return state;
-    }
-};
+const calculatorSlice = createSlice({
+    name: 'calculator',
+    initialState,
+    reducers: {
+        setUser: (state, action) => {
+            state.user = action.payload;
+        },
+        addHistory: (state, action) => {
+            const newHistory = [...state.history, action.payload];
+            if (newHistory.length > 20) {
+                newHistory.shift();
+            }
+            state.history = newHistory;
+        },
+        setDisplay: (state, action) => {
+            state.display = action.payload;
+        },
+        logout: (state) => {
+            state.display = '';
+            state.history = [];
+            state.user = '';
+        },
+        clearHistory: (state) => {
+            state.history = [];
+        },
+    },
+});
 
-const store = configureStore({ reducer });
+export const { setUser, addHistory, setDisplay, logout, clearHistory } = calculatorSlice.actions;
 
-export default store;
+export const store = configureStore({ reducer: calculatorSlice.reducer });

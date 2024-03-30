@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
-import { useDispatch } from "react-redux";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { StyledButton } from "./StyledButton.jsx";
 import { StyledLable } from "./StyledLable.jsx";
 import { StyledInput } from "./StyledInput.jsx";
-import {FormRow} from "./FormRow.jsx";
+import { FormRow } from "./FormRow.jsx";
+import { setUser } from '../Redux/Store.jsx';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -21,7 +23,7 @@ export const LoginForm = () => {
         const isValid = isFormValid();
 
         if (isValid) {
-            dispatch({type: "SET_USER", payload: username});
+            dispatch(setUser(username));
             navigate('/');
         }
     };
@@ -99,3 +101,5 @@ export const LoginForm = () => {
         </div>
     )
 }
+
+
