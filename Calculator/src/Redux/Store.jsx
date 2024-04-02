@@ -6,7 +6,7 @@ const initialState = {
     history: [],
     display: '',
 };
-
+const historyLimit = 20;
 const calculatorSlice = createSlice({
     name: 'calculator',
     initialState,
@@ -16,7 +16,7 @@ const calculatorSlice = createSlice({
         },
         addHistory: (state, action) => {
             const newHistory = [...state.history, action.payload];
-            if (newHistory.length > 20) {
+            if (newHistory.length > historyLimit) {
                 newHistory.shift();
             }
             state.history = newHistory;

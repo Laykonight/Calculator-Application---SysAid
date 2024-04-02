@@ -6,7 +6,7 @@ import { StyledButton } from "./StyledButton.jsx";
 export const Calculator = () => {
     const dispatch = useDispatch();
     const [displayExpression, setDisplayExpression] = useState(useSelector((state) => state.display));
-    const historyLimit = 20;
+
 
     const handleElementClick = (element) => {
         if (element === '=') {
@@ -35,14 +35,14 @@ export const Calculator = () => {
         try {
             result = eval(displayExpression);
             if (result === Infinity) {
-                dispatch(setDisplay('Invalid expression'));
+                setDisplayExpression('Invalid expression');
                 return;
             }
             setDisplayExpression(result.toString());
             dispatch(setDisplay(result));
             dispatch(addHistory('='));
         } catch (error) {
-            dispatch(setDisplay('Invalid expression'));
+            setDisplayExpression('Invalid expression');
         }
     };
 
@@ -75,7 +75,7 @@ export const Calculator = () => {
                 {displayExpression}
             </div>
             <div className="buttons">
-                {buttonRows.slice(0, 4).map((row, rowIndex) => (
+                {buttonRows.slice(0, buttonRows.length).map((row, rowIndex) => (
                     <div
                         key={rowIndex}
                         className="d-flex"
